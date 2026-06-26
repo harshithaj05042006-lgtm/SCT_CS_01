@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CipherShield Text Pro — Dashboard</title>
+<meta name="description" content="Encrypt, decrypt, analyze and learn the Caesar Cipher in a premium cybersecurity workspace."/>
+<link rel="stylesheet" href="/style.css"/>
+</head>
+<body class="dark">
+  <canvas id="particles"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <!-- Top Nav -->
+  <header class="topnav glass">
+    <button class="icon-btn only-mobile" id="menuToggle" aria-label="Toggle sidebar">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </button>
+    <div class="brand small">
+      <div class="logo-mark sm">
+        <svg viewBox="0 0 64 64" width="30" height="30">
+          <defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs>
+          <path d="M32 4 L58 14 V34 C58 50 46 58 32 62 C18 58 6 50 6 34 V14 Z" fill="url(#lg2)" opacity=".15" stroke="url(#lg2)" stroke-width="2"/>
+          <text x="32" y="41" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700" fill="url(#lg2)">C</text>
+        </svg>
+      </div>
+      <div>
+        <strong>CipherShield <span class="accent">Text Pro</span></strong>
+        <div class="muted xs">Caesar Cipher Workspace</div>
+      </div>
+    </div>
+
+    <div class="topnav-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle theme">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M21.64 13a9 9 0 1 1-10.63-10.6A1 1 0 0 1 12 3.6 7 7 0 0 0 20.4 12a1 1 0 0 1 1.24 1Z"/></svg>
+      </button>
+      <button class="icon-btn" id="notifBtn" title="Notifications">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5-6.7V4a2 2 0 0 0-4 0v.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1Z"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <div class="profile">
+        <div class="avatar" id="avatar">A</div>
+        <div class="profile-meta">
+          <strong id="profileName">Agent</strong>
+          <span class="muted xs">Security Analyst</span>
+        </div>
+      </div>
+      <button class="btn ghost sm" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar glass" id="sidebar">
+    <nav>
+      <a href="#dashboard" class="nav-item active" data-section="dashboard"><span class="ni-ico">▦</span> Dashboard</a>
+      <a href="#encrypt" class="nav-item" data-section="encrypt"><span class="ni-ico">🔒</span> Encrypt Text</a>
+      <a href="#decrypt" class="nav-item" data-section="decrypt"><span class="ni-ico">🔓</span> Decrypt Text</a>
+      <a href="#playground" class="nav-item" data-section="playground"><span class="ni-ico">⚙</span> Playground</a>
+      <a href="#history" class="nav-item" data-section="history"><span class="ni-ico">⏱</span> History</a>
+      <a href="#analytics" class="nav-item" data-section="analytics"><span class="ni-ico">📊</span> Analytics</a>
+      <a href="#brute" class="nav-item" data-section="brute"><span class="ni-ico">⚡</span> Brute Force</a>
+      <a href="#frequency" class="nav-item" data-section="frequency"><span class="ni-ico">📈</span> Frequency</a>
+      <a href="#learn" class="nav-item" data-section="learn"><span class="ni-ico">🎓</span> Learn Caesar</a>
+      <a href="#settings" class="nav-item" data-section="settings"><span class="ni-ico">⚙️</span> Settings</a>
+      <a href="#help" class="nav-item" data-section="help"><span class="ni-ico">❔</span> Help</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="muted xs">Threat Level</div>
+      <div class="thr"><span style="width:18%"></span></div>
+      <div class="muted xs">Low — System Secure</div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
+      <div class="page-head">
+        <div>
+          <h1>Welcome back, <span class="accent" id="welcomeName">Agent</span></h1>
+          <p class="muted">Your secure cipher workspace is online.</p>
+        </div>
+        <div class="quick-actions">
+          <button class="btn primary" data-jump="encrypt">＋ New Encryption</button>
+          <button class="btn ghost" data-jump="playground">Open Playground</button>
+        </div>
+      </div>
+
+      <div class="grid stat-grid">
+        <div class="glass stat"><div class="stat-ico">🔒</div><div><div class="muted xs">Total Encryptions</div><div class="stat-val" data-counter="encryptions">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">🔓</div><div><div class="muted xs">Total Decryptions</div><div class="stat-val" data-counter="decryptions">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">✦</div><div><div class="muted xs">Characters Processed</div><div class="stat-val" data-counter="chars">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">🎚</div><div><div class="muted xs">Most Used Shift</div><div class="stat-val" id="mostShift">—</div></div></div>
+        <div class="glass stat"><div class="stat-ico">⚡</div><div><div class="muted xs">Avg Processing</div><div class="stat-val"><span id="avgMs">0</span><span class="unit">ms</span></div></div></div>
+        <div class="glass stat"><div class="stat-ico">🕒</div><div><div class="muted xs">Last Encryption</div><div class="stat-val sm" id="lastEnc">—</div></div></div>
+      </div>
+
+      <div class="grid two">
+        <div class="glass panel">
+          <h3>Recent Activity</h3>
+          <ul class="activity" id="recentActivity"><li class="muted">No activity yet.</li></ul>
+        </div>
+        <div class="glass panel">
+          <h3>Quick Cipher</h3>
+          <textarea id="quickText" placeholder="Type any text…" rows="3"></textarea>
+          <div class="row gap">
+            <label class="muted">Shift</label>
+            <input type="range" min="1" max="25" value="3" id="quickShift"/>
+            <strong id="quickShiftVal">3</strong>
+          </div>
+          <div class="glass inner mono" id="quickOut">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENCRYPT -->
+    <section id="encrypt" class="page">
+      <div class="page-head"><h1>🔒 Encrypt Text</h1><p class="muted">Convert plain text into cipher text.</p></div>
+      <div class="grid two">
+        <div class="glass panel">
+          <div class="row between">
+            <h3>Plain Text</h3>
+            <div class="row gap">
+              <button class="btn xs ghost" id="pasteBtn">Paste</button>
+              <button class="btn xs ghost" id="clearInputBtn">Clear</button>
+            </div>
+          </div>
+          <textarea id="plainText" rows="10" placeholder="Type or paste your message…"></textarea>
+          <div class="counters muted xs">
+            <span>Chars: <b id="cCount">0</b></span>
+            <span>Words: <b id="wCount">0</b></span>
+            <span>Lines: <b id="lCount">0</b></span>
+          </div>
+        </div>
+
+        <div class="glass panel">
+          <h3>Shift Key</h3>
+          <div class="shift-display"><span id="shiftBig">3</span><small>shift</small></div>
+          <div class="row gap">
+            <button class="btn xs ghost" id="shiftDec">−</button>
+            <input type="number" min="1" max="25" value="3" id="shiftInput"/>
+            <button class="btn xs ghost" id="shiftInc">＋</button>
+            <button class="btn xs ghost" id="shiftRand">🎲 Random</button>
+          </div>
+          <input type="range" min="1" max="25" value="3" id="shiftSlider" class="full"/>
+
+          <div class="row wrap gap mt">
+            <button class="btn primary" id="encryptBtn">Encrypt</button>
+            <button class="btn" id="decryptBtnTop">Decrypt</button>
+            <button class="btn ghost" id="swapBtn">↕ Swap</button>
+            <button class="btn ghost" id="clearAllBtn">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid three">
+        <div class="glass panel">
+          <div class="row between"><h4>Original</h4><div class="row gap"><button class="btn xs ghost copy" data-copy="originalOut">Copy</button></div></div>
+          <pre id="originalOut" class="out mono">—</pre>
+        </div>
+        <div class="glass panel hi">
+          <div class="row between"><h4>Encrypted</h4><div class="row gap">
+            <button class="btn xs ghost copy" data-copy="encryptedOut">Copy</button>
+            <button class="btn xs ghost" id="dlEnc">⤓ .txt</button>
+            <button class="btn xs ghost" id="fsEnc">⛶</button>
+          </div></div>
+          <pre id="encryptedOut" class="out mono">—</pre>
+        </div>
+        <div class="glass panel">
+          <div class="row between"><h4>Decrypted</h4><div class="row gap">
+            <button class="btn xs ghost copy" data-copy="decryptedOut">Copy</button>
+            <button class="btn xs ghost" id="dlDec">⤓ .txt</button>
+            <button class="btn xs ghost" id="shareBtn">↗ Share</button>
+          </div></div>
+          <pre id="decryptedOut" class="out mono">—</pre>
+        </div>
+      </div>
+
+      <div class="glass panel">
+        <div class="row between">
+          <h3>Step-by-Step Visualization</h3>
+          <div class="row gap">
+            <label class="muted xs">Speed</label>
+            <input type="range" id="vizSpeed" min="40" max="500" value="160"/>
+            <button class="btn xs" id="vizPlay">▶ Play</button>
+          </div>
+        </div>
+        <div id="vizSteps" class="viz"></div>
+      </div>
+
+      <div class="glass panel">
+        <h3>Character Mapping</h3>
+        <div class="mapping" id="mappingTable"></div>
+      </div>
+    </section>
+
+    <!-- DECRYPT -->
+    <section id="decrypt" class="page">
+      <div class="page-head"><h1>🔓 Decrypt Text</h1><p class="muted">Reverse a Caesar Cipher using a known shift.</p></div>
+      <div class="grid two">
+        <div class="glass panel">
+          <h3>Cipher Text</h3>
+          <textarea id="cipherText" rows="8" placeholder="Paste encrypted text…"></textarea>
+        </div>
+        <div class="glass panel">
+          <h3>Shift</h3>
+          <input type="range" min="1" max="25" value="3" id="dShiftSlider" class="full"/>
+          <div class="row between"><span class="muted">Current shift</span><strong id="dShiftVal">3</strong></div>
+          <button class="btn primary mt" id="runDecrypt">Decrypt</button>
+          <pre class="out mono mt" id="dOut">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section id="playground" class="page">
+      <div class="page-head"><h1>⚙ Caesar Cipher Playground</h1><p class="muted">Visualize the alphabet wheel rotating in real time.</p></div>
+      <div class="grid two">
+        <div class="glass panel">
+          <h3>Live Input</h3>
+          <textarea id="pgInput" rows="4" placeholder="Type a message…">Hello CipherShield</textarea>
+          <div class="row gap">
+            <label class="muted">Shift</label>
+            <input type="range" min="0" max="25" value="3" id="pgShift" class="full"/>
+            <strong id="pgShiftVal">3</strong>
+          </div>
+          <div class="glass inner mono lg" id="pgOut">—</div>
+        </div>
+        <div class="glass panel center">
+          <h3>Alphabet Wheel</h3>
+          <div class="wheel-wrap">
+            <svg id="wheelOuter" viewBox="-110 -110 220 220" width="320" height="320">
+              <circle r="105" fill="none" stroke="url(#lg)" stroke-width="1" opacity=".4"/>
+              <circle r="70" fill="none" stroke="url(#lg)" stroke-width="1" opacity=".4"/>
+              <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs>
+              <g id="outerLetters"></g>
+              <g id="innerLetters"></g>
+              <line x1="0" y1="-108" x2="0" y2="-90" stroke="#00e5ff" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="page">
+      <div class="page-head"><h1>⏱ History</h1><p class="muted">Stored locally on your device.</p></div>
+      <div class="glass panel">
+        <div class="row gap wrap">
+          <input id="histSearch" placeholder="Search history…" class="grow"/>
+          <button class="btn ghost" id="expCsv">⤓ Export CSV</button>
+          <label class="btn ghost"><input type="file" id="impCsv" accept=".csv" hidden/>⤒ Import</label>
+          <button class="btn ghost danger" id="clearHist">Clear All</button>
+        </div>
+        <div class="table-wrap">
+          <table class="hist">
+            <thead><tr><th>Date</th><th>Shift</th><th>Original</th><th>Encrypted</th><th></th></tr></thead>
+            <tbody id="histBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics" class="page">
+      <div class="page-head"><h1>📊 Analytics</h1><p class="muted">Insights from your cipher activity.</p></div>
+      <div class="grid stat-grid">
+        <div class="glass stat"><div class="stat-ico">🔒</div><div><div class="muted xs">Encryptions</div><div class="stat-val" data-counter="encryptions">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">🔓</div><div><div class="muted xs">Decryptions</div><div class="stat-val" data-counter="decryptions">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">✦</div><div><div class="muted xs">Characters</div><div class="stat-val" data-counter="chars">0</div></div></div>
+        <div class="glass stat"><div class="stat-ico">🎚</div><div><div class="muted xs">Most Used Shift</div><div class="stat-val" id="mostShift2">—</div></div></div>
+      </div>
+      <div class="glass panel">
+        <h3>Shift Usage Distribution</h3>
+        <div id="shiftBars" class="bars"></div>
+      </div>
+    </section>
+
+    <!-- BRUTE FORCE -->
+    <section id="brute" class="page">
+      <div class="page-head"><h1>⚡ Brute Force Demo</h1><p class="muted">Why Caesar Cipher is no longer secure.</p></div>
+      <div class="glass panel">
+        <textarea id="bruteIn" rows="3" placeholder="Paste cipher text to try all 25 keys…"></textarea>
+        <button class="btn primary mt" id="bruteRun">Try All 25 Keys</button>
+        <div id="bruteOut" class="brute-grid"></div>
+      </div>
+    </section>
+
+    <!-- FREQUENCY -->
+    <section id="frequency" class="page">
+      <div class="page-head"><h1>📈 Frequency Analysis</h1><p class="muted">How attackers crack the cipher.</p></div>
+      <div class="glass panel">
+        <textarea id="freqIn" rows="3" placeholder="Paste text to analyze…"></textarea>
+        <button class="btn mt" id="freqRun">Analyze</button>
+        <div id="freqChart" class="bars"></div>
+        <p class="muted small mt">English letter frequency is well-known (E, T, A, O, I, N…). Comparing those peaks with cipher text reveals the most likely shift — making Caesar trivially breakable.</p>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section id="learn" class="page">
+      <div class="page-head"><h1>🎓 Learn Caesar Cipher</h1></div>
+      <div class="grid two">
+        <div class="glass panel">
+          <h3>What is the Caesar Cipher?</h3>
+          <p>A substitution cipher where each letter is shifted by a fixed number of positions in the alphabet. Named after Julius Caesar, who used it for military correspondence.</p>
+          <h4>Key Terms</h4>
+          <ul><li><b>Plain Text</b> — your original message</li><li><b>Cipher Text</b> — the encrypted output</li><li><b>Shift / Key</b> — number of positions to rotate</li></ul>
+        </div>
+        <div class="glass panel">
+          <h3>How It Works</h3>
+          <p>With shift 3: <span class="mono">A→D, B→E, C→F …</span></p>
+          <h4>Advantages</h4><ul><li>Simple & fast</li><li>Great for teaching</li></ul>
+          <h4>Limitations</h4><ul><li>Only 25 possible keys</li><li>Vulnerable to frequency analysis</li></ul>
+        </div>
+        <div class="glass panel">
+          <h3>Timeline</h3>
+          <ol class="timeline">
+            <li><b>~58 BC</b> — Julius Caesar uses shift-3 for Gallic Wars dispatches.</li>
+            <li><b>9th century</b> — Al-Kindi develops frequency analysis, breaking Caesar.</li>
+            <li><b>Today</b> — Used in education, ROT13 forums, and CTF challenges.</li>
+          </ol>
+        </div>
+        <div class="glass panel">
+          <h3>Real-World Applications</h3>
+          <ul><li>ROT13 (shift 13) in online forums for spoiler text</li><li>Introductory cryptography curricula</li><li>Capture-The-Flag (CTF) puzzles</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settings" class="page">
+      <div class="page-head"><h1>⚙️ Settings</h1></div>
+      <div class="glass panel">
+        <div class="setting"><label>Theme</label>
+          <select id="setTheme"><option value="dark">Dark</option><option value="light">Light</option></select>
+        </div>
+        <div class="setting"><label>Accent Color</label>
+          <div class="row gap">
+            <button class="swatch" data-accent="#00e5ff" style="--c:#00e5ff"></button>
+            <button class="swatch" data-accent="#a855f7" style="--c:#a855f7"></button>
+            <button class="swatch" data-accent="#22d3ee" style="--c:#22d3ee"></button>
+            <button class="swatch" data-accent="#f472b6" style="--c:#f472b6"></button>
+            <button class="swatch" data-accent="#34d399" style="--c:#34d399"></button>
+          </div>
+        </div>
+        <div class="setting"><label>Animation Speed</label>
+          <input type="range" min="50" max="400" value="160" id="setSpeed"/>
+        </div>
+        <div class="setting"><label>Font Size</label>
+          <input type="range" min="14" max="20" value="16" id="setFont"/>
+        </div>
+        <div class="setting"><label>Notifications</label>
+          <label class="switch"><input type="checkbox" id="setNotif" checked/><span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- HELP -->
+    <section id="help" class="page">
+      <div class="page-head"><h1>❔ Help & Shortcuts</h1></div>
+      <div class="glass panel">
+        <ul class="kbd-list">
+          <li><kbd>Ctrl</kbd>+<kbd>E</kbd> Encrypt</li>
+          <li><kbd>Ctrl</kbd>+<kbd>D</kbd> Decrypt</li>
+          <li><kbd>Ctrl</kbd>+<kbd>K</kbd> Clear All</li>
+          <li><kbd>Ctrl</kbd>+<kbd>R</kbd> Random Shift</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer glass">
+      <div>
+        <strong>CipherShield Text Pro</strong>
+        <div class="muted xs">Premium Caesar Cipher Workspace</div>
+      </div>
+      <div class="foot-links">
+        <a href="#">About</a><a href="#">GitHub</a><a href="#">SkillCraft Technology</a><a href="#">Cyber Security Internship</a>
+      </div>
+      <div class="muted xs">v1.0 · Built by SkillCraft Intern</div>
+    </footer>
+  </main>
+
+  <div id="toast-host" class="toast-host"></div>
+
+  <!-- Fullscreen modal -->
+  <div id="fsModal" class="modal hidden"><div class="glass modal-card"><button class="btn xs ghost close" id="fsClose">✕</button><pre id="fsContent" class="mono"></pre></div></div>
+
+  <script src="/script.js" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      CipherShield.initBackground();
+      CipherShield.initDashboard();
+    });
+  </script>
+</body>
+</html>
